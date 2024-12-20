@@ -5,9 +5,64 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 104px 1fr auto;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.main-navigation ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.header-logo {
+  grid-column: span 2;
+}
+nav {
+  grid-column: span 8;
+}
+header.container {
+  align-items: center;
+}
+
+footer {
+  background-color: #EDEFEE;
+}
+.footer-logo {
+  grid-column: span 3;
+}
+.footer-logo img {
+  width: 100%;
+}
+.doormat-nav {
+  grid-column: span 2;
+}
+.doormat-nav ul {
+  list-style: none;
+}
+.contact {
+  grid-column: span 3;
+}
+.contact ul {
+  list-style: none;
+}
+.social-media {
+  grid-column: span 2;
 }

@@ -1,12 +1,13 @@
-import FooterLogo from "../assets/logo-image.jpg"
+import FooterLogo from "../assets/logo-image.jpg";
 
 export default function Footer() {
   return (
     <footer>
-      <div className="footer-logo">
-        <img src={FooterLogo} alt="Little lemon logo" />
-      </div>
-      <div className="footer-menu">
+      <div className="container">
+        <div className="footer-logo">
+          <img src={FooterLogo} alt="Little lemon logo" />
+        </div>
+
         <div className="doormat-nav">
           <ul>
             <li>
@@ -32,9 +33,15 @@ export default function Footer() {
         <div className="contact">
           <ul>
             <h3>Contact</h3>
-            <li><span>Address:</span></li>
-            <li><span>Email:</span></li>
-            <li><span>Tel:</span></li>
+            <li>
+              <span>Address:</span>
+            </li>
+            <li>
+              <span>Email:</span>
+            </li>
+            <li>
+              <span>Tel:</span>
+            </li>
           </ul>
         </div>
         <div className="social-media">
