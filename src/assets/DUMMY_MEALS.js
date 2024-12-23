@@ -11,14 +11,14 @@ export const DUMMY_MEALS = [
     image: saladImg,
   },
   {
-    id: "meal01",
+    id: "meal02",
     title: "Bruschetta",
     price: "$12.99",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     image: bruschettaImg,
   },
   {
-    id: "meal01",
+    id: "meal03",
     title: "Pasta",
     price: "$12.99",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
