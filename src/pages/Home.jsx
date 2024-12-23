@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import heroImg from "../assets/restauranfood.jpg";
 import { DUMMY_MEALS } from "../assets/DUMMY_MEALS";
 import { DUMMY_USERS } from "../assets/DUMMY_USERS";
@@ -20,9 +21,9 @@ export default function HomePage() {
               enim ad minim veniam.
             </p>
             <div className="reservation-btn">
-              <a href="/" className="cta">
+              <Link to="/reservations" className="cta">
                 Reserve a Table
-              </a>
+              </Link>
             </div>
           </article>
           <div className="hero-img">
