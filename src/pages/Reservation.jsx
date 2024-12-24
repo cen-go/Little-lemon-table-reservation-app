@@ -3,8 +3,6 @@ import BookingForm from "../components/BookingForm";
 export default function ReservationPage({
   availableTimes,
   resDate,
-  handleDateChange,
-  updateTimes,
   setResDate,
 }) {
   return (
@@ -16,8 +14,6 @@ export default function ReservationPage({
       <BookingForm
         availableTimes={availableTimes}
         resDate={resDate}
-        handleDateChange={handleDateChange}
-        updateTimes={updateTimes}
         setResDate={setResDate}
       />
     </>

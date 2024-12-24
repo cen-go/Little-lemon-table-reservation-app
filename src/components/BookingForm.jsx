@@ -1,10 +1,10 @@
 import { useState } from "react";
 
+import { submitAPI } from "../API";
+
 export default function BookingForm({
   availableTimes,
   resDate,
-  handleDateChange,
-  updateTimes,
   setResDate,
 }) {
   const [resData, setResData] = useState({
@@ -35,8 +35,7 @@ export default function BookingForm({
       ...resData,
       date: resDate,
     };
-    updateTimes(resData.time);
-    console.log(reservationDetail);
+    submitAPI(reservationDetail);
     setResDate("");
     setResData({
       firstName: "",
@@ -65,7 +64,7 @@ export default function BookingForm({
               id="date"
               placeholder="DD/MM/YY"
               value={resData.date}
-              onChange={handleDateChange}
+              onChange={(e) => setResDate(e.target.value)}
             />
           </div>
 

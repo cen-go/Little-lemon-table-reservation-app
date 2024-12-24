@@ -1,9 +1,10 @@
 import Header from './components/Header';
 import Footer from "./components/Footer"
 import { Route, Routes } from 'react-router-dom';
-import { useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import HomePage from './pages/Home';
 import ReservationPage from './pages/Reservation';
+import { setStore, fetchAPI } from './API';
 
 const workingHours = [
   "12:00",
@@ -19,73 +20,33 @@ const workingHours = [
 ];
 
 function availableTimesReducer(state, action) {
-  if (action.type === "update times") {
-    if (state.bookedTimes[action.payload.date]) {
-      return {
-        bookedTimes: {
-          ...state.bookedTimes,
-          [action.payload.date]: [
-            ...state.bookedTimes[action.payload.date],
-            action.payload.time,
-          ],
-        },
-        availableTimes: [...state.availableTimes],
-      }
-    } else {
-      return {
-        bookedTimes: {
-          ...state.bookedTimes,
-          [action.payload.date]: [action.payload.time],
-        },
-        availableTimes: [...state.availableTimes],
-      };
-    }
-  }
   if (action.type === "initialize times") {
-    if (state.bookedTimes[action.payload.date]) {
-      return {
-        bookedTimes: {
-          ...state.bookedTimes,
-        },
-        availableTimes: workingHours.filter(
-          (time) => !state.bookedTimes[action.payload.date].includes(time)
-        ),
-      };
-    } else {
-      return {
-        bookedTimes: {
-          ...state.bookedTimes,
-        },
-        availableTimes: workingHours,
-      };
-    }
+    return action.payload.availableTimes;
   }
   return workingHours;
 }
 
 function App() {
   const [ resDate, setResDate] = useState("");
-  const [availableTimes, dispatch] = useReducer(
-    availableTimesReducer,
-    {
-      bookedTimes: {},
-      availableTimes: workingHours,
-    }
-  );
+  const [availableTimes, dispatch] = useReducer(availableTimesReducer, workingHours);
 
-  function updateTimes(time) {
-    dispatch({type: "update times", payload: {date: resDate, time: time}});
+  useEffect(() => {
+    setStore();
+  }, []);
+
+  useEffect(() => {
+    const fetchedTimes = fetchAPI(resDate);
+    initializeTimes(fetchedTimes);
+  }, [resDate]);
+
+  function initializeTimes(fetchedTimes) {
+    dispatch({type: "initialize times", payload: {availableTimes: fetchedTimes}});
   }
 
-  function initializeTimes(date) {
-    dispatch({type: "initialize times", payload: {date: date}});
-  }
-
-  function handleDateChange(event) {
-    setResDate(event.target.value);
-    initializeTimes(event.target.value);
-    console.log(availableTimes.bookedTimes);
-  }
+  // function handleDateChange(event) {
+  //   setResDate(event.target.value);
+  //   initializeTimes(event.target.value);
+  // }
 
   return (
     <>
@@ -97,10 +58,8 @@ function App() {
             path="/reservations"
             element={
               <ReservationPage
-                availableTimes={availableTimes.availableTimes}
+                availableTimes={availableTimes}
                 resDate={resDate}
-                handleDateChange={handleDateChange}
-                updateTimes={updateTimes}
                 setResDate={setResDate}
               />
             }
