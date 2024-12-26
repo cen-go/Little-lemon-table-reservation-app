@@ -5,6 +5,7 @@ import { useEffect, useReducer, useState } from 'react';
 import HomePage from './pages/Home';
 import ReservationPage from './pages/Reservation';
 import { setStore, fetchAPI } from './API';
+import ConfirmationPage from './pages/Confirmation';
 
 const workingHours = [
   "12:00",
@@ -43,11 +44,6 @@ function App() {
     dispatch({type: "initialize times", payload: {availableTimes: fetchedTimes}});
   }
 
-  // function handleDateChange(event) {
-  //   setResDate(event.target.value);
-  //   initializeTimes(event.target.value);
-  // }
-
   return (
     <>
       <Header />
@@ -64,6 +60,7 @@ function App() {
               />
             }
           />
+          <Route path='/confirmed' element={<ConfirmationPage />} />
         </Routes>
       </main>
       <Footer />

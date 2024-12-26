@@ -1,4 +1,5 @@
 import FooterLogo from "../assets/logo-image.jpg";
+import SocialMediaIcons from "./SocialMediaIcons";
 
 export default function Footer() {
   return (
@@ -34,19 +35,17 @@ export default function Footer() {
           <ul>
             <h3>Contact</h3>
             <li>
-              <span>Address:</span>
+              <span>Address: </span> 3688 Willow St., Chicago, IL 60652
             </li>
             <li>
-              <span>Email:</span>
+              <span>Email: </span> littlelemon@lemon.com
             </li>
             <li>
-              <span>Tel:</span>
+              <span>Tel: </span> +1-555-000-0000
             </li>
           </ul>
         </div>
-        <div className="social-media">
-          <h3>Social Media Links</h3>
-        </div>
+        <SocialMediaIcons />
       </div>
     </footer>
   );

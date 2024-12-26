@@ -4,7 +4,6 @@ import { DUMMY_MEALS } from "../assets/DUMMY_MEALS";
 import { DUMMY_USERS } from "../assets/DUMMY_USERS";
 import SpecialsCard from "../components/SpecialsCard";
 import TestimonialCard from "../components/TestimonialCard";
-import ownerImg1 from "../assets/owners1.jpg"
 import ownerImg2 from "../assets/owners2.jpg"
 
 export default function HomePage() {
@@ -66,7 +65,6 @@ export default function HomePage() {
           </p>
         </article>
         <div className="about-images">
-          <img src={ownerImg1} alt="mario and luigi" className="lower-img" />
           <img src={ownerImg2} alt="mario and luigi" />
         </div>
       </section>

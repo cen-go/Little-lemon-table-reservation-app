@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { submitAPI } from "../API";
 
@@ -19,6 +20,21 @@ export default function BookingForm({
     notes: "",
   });
 
+  const [isSbmitting, setIsSubmitting] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(true);
+
+  useEffect(() => {
+    if (resDate && resData.guests  && resData.seating && resData.time && resData.firstName && resData.lastName && resData.email && resData.tel) {
+      setIsInvalid(false);
+    }
+    if (!resDate || !resData.guests  || !resData.seating || !resData.time || !resData.firstName || !resData.lastName || !resData.email || !resData.tel) {
+      setIsInvalid(true);
+    }
+  }, [resData, resDate]);
+
+
+  const navigate = useNavigate();
+
   function handleChange(value, propertyName) {
     setResData((prevResData) => {
       return {
@@ -28,26 +44,31 @@ export default function BookingForm({
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
+    setIsSubmitting(true);
     event.preventDefault();
 
     const reservationDetail = {
       ...resData,
       date: resDate,
     };
-    submitAPI(reservationDetail);
-    setResDate("");
-    setResData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      tel: "",
-      time: "",
-      seating: "",
-      guests: "",
-      occasion: "",
-      notes: "",
-    });
+    const response = await submitAPI(reservationDetail);
+    if (response) {
+      setResDate("");
+      setResData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        tel: "",
+        time: "",
+        seating: "",
+        guests: "",
+        occasion: "",
+        notes: "",
+      });
+      setIsSubmitting(false);
+      navigate("/confirmed");
+    }
   }
 
   return (
@@ -56,21 +77,22 @@ export default function BookingForm({
         <div className="form-row">
           <div className="control">
             <label htmlFor="date">
-              <h3>DATE OF VISIT</h3>
+              <h3>DATE OF VISIT*</h3>
             </label>
             <input
               type="date"
               name="date"
               id="date"
               placeholder="DD/MM/YY"
-              value={resData.date}
+              value={resDate}
               onChange={(e) => setResDate(e.target.value)}
+              required
             />
           </div>
 
           <div className="control">
             <label htmlFor="guests">
-              <h3>NUMBER OF GUESTS</h3>
+              <h3>NUMBER OF GUESTS*</h3>
             </label>
             <input
               type="number"
@@ -79,6 +101,9 @@ export default function BookingForm({
               placeholder="1"
               value={resData.guests}
               onChange={(e) => handleChange(e.target.value, "guests")}
+              min={1}
+              max={10}
+              required
             />
           </div>
         </div>
@@ -86,13 +111,14 @@ export default function BookingForm({
         <div className="form-row">
           <div className="control">
             <label htmlFor="seating">
-              <h3>SEATING OPTIONS</h3>
+              <h3>SEATING OPTIONS*</h3>
             </label>
             <select
               name="seating"
               id="seating"
               value={resData.seating}
               onChange={(e) => handleChange(e.target.value, "seating")}
+              required
             >
               <option value="">Select Seating</option>
               <option value="inside">Inside</option>
@@ -102,13 +128,14 @@ export default function BookingForm({
 
           <div className="control">
             <label htmlFor="time">
-              <h3>TIME</h3>
+              <h3>TIME*</h3>
             </label>
             <select
               name="time"
               id="time"
               value={resData.time}
               onChange={(e) => handleChange(e.target.value, "time")}
+              required
             >
               <option value="">Select Time</option>
               {availableTimes.map((time) => (
@@ -123,7 +150,7 @@ export default function BookingForm({
         <div className="form-row">
           <div className="control">
             <label htmlFor="firstName">
-              <h3>FIRST NAME</h3>
+              <h3>FIRST NAME*</h3>
             </label>
             <input
               type="text"
@@ -132,12 +159,13 @@ export default function BookingForm({
               placeholder="Enter First Name"
               value={resData.firstName}
               onChange={(e) => handleChange(e.target.value, "firstName")}
+              required
             />
           </div>
 
           <div className="control">
             <label htmlFor="lastName">
-              <h3>LAST NAME</h3>
+              <h3>LAST NAME*</h3>
             </label>
             <input
               type="text"
@@ -146,13 +174,14 @@ export default function BookingForm({
               placeholder="Enter Last Name"
               value={resData.lastName}
               onChange={(e) => handleChange(e.target.value, "lastName")}
+              required
             />
           </div>
         </div>
 
         <div className="control full-row">
           <label htmlFor="email">
-            <h3>EMAIL</h3>
+            <h3>EMAIL*</h3>
           </label>
           <input
             type="email"
@@ -161,12 +190,13 @@ export default function BookingForm({
             placeholder="Enter Email"
             value={resData.email}
             onChange={(e) => handleChange(e.target.value, "email")}
+            required
           />
         </div>
 
         <div className="control full-row">
           <label htmlFor="tel">
-            <h3>MOBILE PHONE</h3>
+            <h3>MOBILE PHONE*</h3>
           </label>
           <input
             type="tel"
@@ -175,6 +205,7 @@ export default function BookingForm({
             placeholder="Enter Phone Number"
             value={resData.tel}
             onChange={(e) => handleChange(e.target.value, "tel")}
+            required
           />
         </div>
 
@@ -208,8 +239,13 @@ export default function BookingForm({
             onChange={(e) => handleChange(e.target.value, "notes")}
           ></textarea>
         </div>
+        <div className="control full-row">
+          <p className="validation-warning">Fields with * can not be empty.</p>
+        </div>
         <div className="form-actions">
-          <button className="cta">SUBMIT</button>
+          <button className="cta" disabled={(isSbmitting || isInvalid)}>
+            {isSbmitting ? "Submitting..." : "Submit"}
+            </button>
         </div>
       </div>
     </form>

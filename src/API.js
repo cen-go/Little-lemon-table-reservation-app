@@ -35,6 +35,12 @@ export function submitAPI(bookingData) {
   const allBookings = JSON.parse(localStorage.getItem("bookings"));
   allBookings.push(bookingData);
   localStorage.setItem("bookings", JSON.stringify(allBookings));
+
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 1500);
+  })
 }
 
 export function fetchAPI(date) {
